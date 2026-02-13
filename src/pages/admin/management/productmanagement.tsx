@@ -98,7 +98,7 @@ const Productmanagement = () => {
         price: data.product.price,
         stock: data.product.stock,
         category: data.product.category,
-        photo: data.product.photos?.[0]?.url || "",
+        photo: data.product.photo,
       });
     }
   }, [data])
