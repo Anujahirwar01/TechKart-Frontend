@@ -22,7 +22,7 @@ const ProdectCard = ({productId, name, price, photo, stock, handler}: ProductsPr
         <p>{name}</p >
         <span>₹{price}</span>
         <div >
-            <button onClick={() => handler({productId, name, price, photo, stock, quantity: 1})}><FaPlus/></button>
+            <button onClick={() => handler({productId, name, price, photo: imageUrl, stock, quantity: 1})}><FaPlus/></button>
         </div>
     </div>;
 }
