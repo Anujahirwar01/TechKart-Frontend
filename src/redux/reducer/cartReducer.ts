@@ -92,11 +92,11 @@ export const cartReducer = createSlice({
         saveShippingInfo: (state, action: PayloadAction<ShippingInfo>) => {
             state.shippingInfo = action.payload;
         },
-        resetCart:() => initialState,
+        resetCart: () => initialState,
     }
 
 })
 
 export const { addToCartRequest, removeCartItem, calculatePrice, discountApplied,
-    saveShippingInfo,resetCart
- } = cartReducer.actions;    
+    saveShippingInfo, resetCart
+} = cartReducer.actions;    

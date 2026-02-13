@@ -41,7 +41,7 @@ const NewProduct = () => {
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!name || !category ||stock<0|| !price || !photo) {
+    if (!name || !category || stock < 0 || !price || !photo) {
       return;
     }
     const formData = new FormData();
