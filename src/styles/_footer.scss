@@ -1,1 +1,107 @@
-// Footer Styles
+.footer {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #fff;
+    padding: 60px 0 30px;
+
+    .footer-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 40px;
+    }
+
+    .footer-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 2rem;
+    }
+
+    .footer-col {
+        flex: 1;
+        min-width: 200px;
+
+        h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            position: relative;
+
+            &:after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: -8px;
+                background-color: $color3;
+                height: 2px;
+                width: 30px;
+                border-radius: 2px;
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+
+            li {
+                margin-bottom: 10px;
+
+                a {
+                    color: rgba(255, 255, 255, 0.5);
+                    text-decoration: none;
+                    font-size: 0.9rem;
+                    transition: all 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.4rem;
+
+                    &:hover {
+                        color: $color3;
+                        padding-left: 4px;
+                    }
+                }
+            }
+        }
+    }
+
+    .social-links {
+        @include flex(row, flex-start, center, 0.75rem);
+        margin-top: 0.5rem;
+
+        a {
+            height: 38px;
+            width: 38px;
+            background-color: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: $color3;
+                border-color: $color3;
+                transform: translateY(-2px);
+            }
+
+            svg {
+                color: #fff;
+                font-size: 16px;
+            }
+        }
+    }
+
+    .footer-bottom {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 0.82rem;
+        padding-top: 1rem;
+        letter-spacing: 0.5px;
+    }
+}

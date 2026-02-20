@@ -8,7 +8,7 @@ import { auth } from './firebase'
 import { useAppDispatch } from './redux/hooks'
 import { userExist } from './redux/reducer/userReducer'
 import { userNotExist } from './redux/reducer/userReducer'
-import { getUser } from './redux/api/userAPI'
+import { getUser, getDemoAdminUser } from './redux/api/userAPI'
 import { useSelector } from 'react-redux'
 import type { UserReducerInitialState } from './types/reducer-types'
 import ProtectedRoute from './components/protected-route'
@@ -18,6 +18,7 @@ import ProtectedRoute from './components/protected-route'
 
 const Home = lazy(() => import('./pages/home'))
 const Search = lazy(() => import('./pages/search'))
+const ProductDetails = lazy(() => import('./pages/product-details'))
 const Cart = lazy(() => import('./pages/cart'))
 const Shipping = lazy(() => import('./pages/shipping'))
 const Login = lazy(() => import('./pages/login'))
@@ -25,6 +26,7 @@ const Orders = lazy(() => import('./pages/orders'))
 const OrderDetails = lazy(() => import('./pages/order-details'))
 const NotFound = lazy(() => import('./pages/not-found'))
 const Checkout = lazy(() => import('./pages/checkout'))
+const Discount = lazy(() => import('./pages/admin/discount'))
 
 //admin routes importing 
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
@@ -44,6 +46,9 @@ const ProductManagement = lazy(
 const TransactionManagement = lazy(
   () => import("./pages/admin/management/transactionmanagement")
 );
+const DiscountManagement = lazy(
+  () => import("./pages/admin/management/discountmanagement")
+);
 
 
 const App = () => {
@@ -60,11 +65,21 @@ const App = () => {
           dispatch(userExist(data.user))
         } catch (error: any) {
           console.error("User not found in database. Please complete registration.");
-          // User exists in Firebase but not in database - need to complete registration
           dispatch(userNotExist())
         }
       } else {
-        dispatch(userNotExist())
+        // Check for demo admin session
+        if (localStorage.getItem("demo-admin-session") === "true") {
+          try {
+            const data = await getDemoAdminUser();
+            dispatch(userExist(data.user));
+          } catch {
+            localStorage.removeItem("demo-admin-session");
+            dispatch(userNotExist());
+          }
+        } else {
+          dispatch(userNotExist())
+        }
       }
     });
   }, [dispatch])
@@ -78,6 +93,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/search' element={<Search />} />
+          <Route path='/product/:id' element={<ProductDetails />} />
           <Route path='/cart' element={<Cart />} />
 
           {/*Not loggedin route */}
@@ -103,6 +119,8 @@ const App = () => {
             <Route path="/admin/product" element={<Products />} />
             <Route path="/admin/customer" element={<Customers />} />
             <Route path="/admin/transaction" element={<Transaction />} />
+            <Route path="/admin/coupon" element={<Discount />} />
+            <Route path="/admin/discount/:id" element={<DiscountManagement />} />
             {/* Charts */}
             <Route path="/admin/chart/bar" element={<Barcharts />} />
             <Route path="/admin/chart/pie" element={<Piecharts />} />
@@ -116,7 +134,7 @@ const App = () => {
             <Route path="/admin/product/new" element={<NewProduct />} />
 
             <Route path="/admin/product/:id" element={<ProductManagement />} />
-
+            <Route path="/admin/discount/:id" element={<DiscountManagement />} />
             <Route path="/admin/transaction/:id" element={<TransactionManagement />} />
           </Route>;
                       <Route path="*" element={<NotFound />} />

@@ -16,13 +16,14 @@ export default Loader
 interface SkeletonProps {
   width?: string;
   count?: number;
+  height?: string;
 }
 
-export const SkeletonLoader = ({ width = "unset", count = 3 }: SkeletonProps) => {
+export const SkeletonLoader = ({ width = "unset", count = 3, height }: SkeletonProps) => {
   return (
     <div className="skeleton-loader" style={{ width }}>
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="skeleton-shape"></div>
+        <div key={i} className="skeleton-shape" style={height ? { height } : undefined}></div>
       ))}
     </div>
   );

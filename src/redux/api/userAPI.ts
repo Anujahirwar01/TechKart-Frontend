@@ -43,16 +43,20 @@ export const getUser = async (id: string) => {
   try {
     const { data }: { data: UserResponse } = await axios.get(
       `${import.meta.env.VITE_SERVER}/api/v1/user/${id}`,
-      {
-        withCredentials: true,
-      }
+      { withCredentials: true }
     );
-
     return data;
   } catch (error) {
     console.error("Error fetching user:", error);
     throw error;
   }
+};
+
+export const getDemoAdminUser = async () => {
+  const { data }: { data: UserResponse } = await axios.get(
+    `${import.meta.env.VITE_SERVER}/api/v1/user/demo/login`
+  );
+  return data;
 };
 
 export const { useLoginMutation, useAllUsersQuery, useDeleteUserMutation } =

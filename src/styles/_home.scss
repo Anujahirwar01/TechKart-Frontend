@@ -1,98 +1,419 @@
-.home{
-    padding:2rem 5%;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 4rem);
-    width:100%;
-   >section{
-    width:100%;
-    height:12rem;
-    margin:auto;
-    background: url("/cover.jpg") no-repeat center/cover;
-}
-    >h1{
-        @include heading(1px);
-        margin-top: 2rem; // Reduced from 3rem
-        @include flex(row,space-between,center);
-        }
-    > main{
-        width:100%;
-        flex:1;
-        display:flex;
-        gap:1rem;
-        overflow-x:auto;
-        align-items: flex-start; // Add this to align cards to top
-        padding: 1rem 0; // Add some padding
+.home {
+  padding: 2rem 5%;
+  display: flex;
+  flex-direction: column;
+  max-width: 1920px;
+  margin: auto;
+  width: 100%;
+  background-color: #f8fafc;
 
-        &::-webkit-scrollbar{
-            display:none;
+  >section {
+    display: none;
+  }
+
+  >div {
+    @include flex;
+    align-items: stretch;
+    margin: 2rem 0;
+    gap: 2rem;
+    border-radius: 16px;
+    overflow: hidden;
+
+    aside {
+      width: 180px;
+      flex: none;
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+
+      h1 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: $color3;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid rgba(8, 145, 178, 0.15);
+      }
+
+      >ul {
+        @include flex(column, flex-start, flex-start, 0);
+        list-style: none;
+
+        >li {
+          width: 100%;
+
+          a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.88rem;
+            color: #475569;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+
+            &:hover {
+              color: $color3;
+              background-color: rgba(8, 145, 178, 0.08);
+              padding-left: 1rem;
+            }
+          }
         }
+      }
     }
+  }
+
+  >h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #1e293b;
+    margin-top: 2rem;
+    @include flex(row, space-between, center);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(8, 145, 178, 0.15);
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 1.4rem;
+      background-color: $color3;
+      border-radius: 4px;
+      margin-right: 0.5rem;
+    }
+  }
+
+  .findmore {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $color3;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border: 1.5px solid $color3;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $color3;
+      color: white;
+    }
+  }
+
+  >main {
+    margin: 1.5rem 0;
+    width: 100%;
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(8, 145, 178, 0.3);
+      border-radius: 4px;
+    }
+  }
 }
 
 .product-card {
-  width: 15rem; // Reduced width
-  height: auto; // Changed to auto height
-  max-height: 18rem; // Set max height to fit viewport
+  width: 18.75rem;
+  min-height: 25rem;
   padding: 1rem;
   flex: none;
-  @include flex(column, flex-start, center, 4px);
+  @include flex(column, flex-start, center, 8px);
   position: relative;
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  overflow: hidden;
 
-  &:hover > div {
-    opacity: 1;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+
+    >div {
+      opacity: 1;
+    }
+
+    img {
+      transform: scale(1.04);
+    }
   }
 
   img {
-    width: calc(15rem - 2rem); // Adjusted for new card width
-    height: 10rem; // Reduced image height
+    width: calc(18.75rem - 3rem);
+    height: 14rem;
     object-fit: cover;
-    margin: 0;
-    border-radius: 4px;
-    flex-shrink: 0; // Prevent image from shrinking
-  }
-
-  p {
-    font-size: 0.9rem;
-    text-align: center;
-    margin: 0.5rem 0;
-    line-height: 1.2;
+    margin: 0.5rem;
+    border-radius: 10px;
+    transition: transform 0.4s ease;
   }
 
   span {
-    font-weight: 700;
-    font-size: 1rem;
-    color: $color3;
-    margin-top: auto; // Push price to bottom
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #1e293b;
+    text-align: center;
+    padding: 0 0.5rem;
+    line-height: 1.4;
   }
 
-  > div {
+  >div {
     opacity: 0;
     position: absolute;
     @include square(100%);
     top: 0;
     left: 0;
-    background-color: #0000006b;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.2) 100%);
     @include flex;
-    border-radius: 8px;
-    
+    gap: 1rem;
+    transition: opacity 0.3s ease;
+    border-radius: 16px;
+
     button,
     a {
       @include flex;
       @include square(3rem);
-      border-radius: 100%;
-      border: none;
+      border-radius: 50%;
+      border: 2px solid white;
       background-color: $color3;
       cursor: pointer;
-      color: $color1;
+      color: white;
       font-size: 1.1rem;
-      transition: all 0.3s;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
       &:hover {
-        rotate: 20deg;
+        background-color: white;
+        color: $color3;
+        transform: scale(1.1);
       }
+    }
+  }
+}
+
+.cover-video-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  @include flex(column);
+  margin-top: 2rem;
+
+  .cover-video-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.6) 60%,
+        rgba(0, 0, 0, 0.8) 100%);
+    z-index: 2;
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  >span {
+    position: absolute;
+    bottom: 2rem;
+    z-index: 4;
+    animation: bounce 2s infinite;
+
+    svg {
+      color: white;
+      font-size: 2.5rem;
+      opacity: 0.8;
+    }
+  }
+
+  .cover-video-content {
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    width: 80%;
+    max-width: 900px;
+
+    h2 {
+      font-size: 5rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #fff 0%, $color3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+      line-height: 1;
+    }
+
+    span {
+      font-size: 1.15rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.our-services {
+  background-color: #f8fafc;
+  padding: 6rem 5%;
+
+  >ul {
+    max-width: 1100px;
+    margin: 0 auto;
+    @include grid(1fr 1fr 1fr, 2rem, auto);
+    list-style: none;
+
+    >li {
+      @include flex(column, center, center, 1.25rem);
+      background: white;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(8, 145, 178, 0.08);
+
+      &:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 40px rgba(8, 145, 178, 0.15);
+        border-color: rgba(8, 145, 178, 0.3);
+
+        >div {
+          background-color: $color3;
+          border-color: $color3;
+
+          svg {
+            color: white;
+          }
+        }
+      }
+
+      >div {
+        background-color: rgba(8, 145, 178, 0.08);
+        @include square(5rem);
+        @include flex;
+        border-radius: 50%;
+        border: 2px solid rgba(8, 145, 178, 0.2);
+        transition: all 0.3s ease;
+
+        svg {
+          color: $color3;
+          font-size: 2.2rem;
+          transition: color 0.3s ease;
+        }
+      }
+
+      >section {
+        @include flex(column, center, center, 0.4rem);
+        text-align: center;
+
+        h3 {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #1e293b;
+          letter-spacing: 0.5px;
+        }
+
+        p {
+          font-size: 0.88rem;
+          color: #64748b;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+.our-clients {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  padding: 6rem 5%;
+
+  div {
+    max-width: 1100px;
+    margin: 0 auto;
+
+    h2 {
+      color: white;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: $color3;
+        margin: 0.75rem auto 3rem;
+        border-radius: 2px;
+      }
+    }
+
+    div {
+      @include flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+
+      img {
+        height: 2.5rem;
+        width: auto;
+        filter: brightness(0) invert(1);
+        opacity: 0.5;
+        transition: all 0.3s ease;
+
+        &:hover {
+          opacity: 1;
+          transform: scale(1.1);
+          filter: brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(165deg);
+        }
+      }
+    }
+
+    p {
+      text-align: center;
+      margin-top: 3rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
     }
   }
 }

@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { AllProductsResponse, CategoriesResponse, DeleteProductRequest, MessageResponse, ProductResponse, SearchProductsRequest, SearchProductsResponse, UpdateProductRequest } from "../../types/api-types";
+import type { AllProductsResponse, AllReviewsResponse, CategoriesResponse, DeleteProductRequest, DeleteReviewRequest, MessageResponse, NewReviewRequest, ProductResponse, SearchProductsRequest, SearchProductsResponse, UpdateProductRequest } from "../../types/api-types";
 
 export const productAPI = createApi({
     reducerPath: "productApi",
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_SERVER}/api/v1/product/`,
     }),
-    tagTypes: ["latest-product", "all-product", "categories", "search-product", "new-product"],
+    tagTypes: ["latest-product", "all-product", "categories", "search-product", "new-product", "reviews"],
     endpoints: (builder) => ({
         latestProducts: builder.query<AllProductsResponse, string>({
             query: () => "latest",
@@ -55,6 +55,28 @@ export const productAPI = createApi({
             invalidatesTags: ["all-product", "latest-product"]
         }),
 
+        allReviewsOfProducts: builder.query<AllReviewsResponse, string>({
+            query: (id) => `reviews/${id}`,
+            providesTags: ["reviews"]
+        }),
+
+        newReview: builder.mutation<MessageResponse, NewReviewRequest>({
+            query: ({ comment, rating, userId, productId }) => ({
+                url: `review/new?id=${userId}`,
+                method: "POST",
+                body: { comment, rating, productId },
+            }),
+            invalidatesTags: ["reviews", "latest-product"]
+        }),
+
+        deleteReview: builder.mutation<MessageResponse, DeleteReviewRequest>({
+            query: ({ reviewId, userId }) => ({
+                url: `review/${reviewId}?id=${userId}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["reviews", "latest-product"]
+        }),
+
     }),
 });
 
@@ -65,5 +87,8 @@ export const { useLatestProductsQuery, useAllProductsQuery,
     useNewProductsMutation,
     useProductDetailsQuery,
     useUpdateProductsMutation,
-    useDeleteProductsMutation
+    useDeleteProductsMutation,
+    useAllReviewsOfProductsQuery,
+    useNewReviewMutation,
+    useDeleteReviewMutation
 } = productAPI;

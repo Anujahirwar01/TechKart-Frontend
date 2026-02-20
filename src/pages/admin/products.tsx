@@ -58,7 +58,7 @@ const Products = () => {
       name: i.name,
       price: i.price,
       stock: i.stock,
-      photo: <img src={`${import.meta.env.VITE_SERVER}/${i.photo}`} alt={i.name} />,
+      photo: <img src={`${import.meta.env.VITE_SERVER}/${i.photos[0]?.url}`} alt={i.name} />,
       action: <Link to={`/admin/product/${i._id}`}>Manage</Link>
     })))
   }, [data])

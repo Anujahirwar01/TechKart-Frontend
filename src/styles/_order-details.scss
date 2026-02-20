@@ -1,0 +1,248 @@
+.order-details-loading {
+    min-height: 60vh;
+    @include flex;
+    font-size: 1.1rem;
+    color: #64748b;
+}
+
+.order-details-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 5%;
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+.order-details-header {
+    @include flex(row, space-between, flex-start);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .back-link {
+        font-size: 0.85rem;
+        color: $color3;
+        font-weight: 500;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    h1 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.5px;
+        margin-bottom: 0.25rem;
+    }
+
+    .order-id {
+        font-size: 0.82rem;
+        color: #94a3b8;
+
+        span {
+            font-family: monospace;
+            color: #64748b;
+        }
+    }
+
+    .order-status-badge {
+        @include flex(row, center, center, 0.5rem);
+        padding: 0.6rem 1.25rem;
+        border-radius: 100px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+
+        &.status-processing {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        &.status-shipped {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        &.status-delivered {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-icon {
+            font-size: 1rem;
+
+            &.processing {
+                color: #d97706;
+            }
+
+            &.shipped {
+                color: #2563eb;
+            }
+
+            &.delivered {
+                color: #16a34a;
+            }
+        }
+    }
+}
+
+.order-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 1.5rem;
+    align-items: start;
+
+    @media (max-width: 860px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.order-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.75rem;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(8, 145, 178, 0.07);
+
+    h2 {
+        @include flex(row, flex-start, center, 0.6rem);
+        font-size: 1rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1.5px solid #f1f5f9;
+        letter-spacing: 0.2px;
+
+        svg {
+            color: $color3;
+            font-size: 1rem;
+        }
+    }
+}
+
+.order-details-right {
+    @include flex(column, flex-start, stretch, 1.5rem);
+}
+
+// Order Items
+.order-items-list {
+    @include flex(column, flex-start, stretch, 0.75rem);
+}
+
+.order-item {
+    @include flex(row, flex-start, center, 1rem);
+    padding: 0.75rem;
+    border-radius: 10px;
+    background: #f8fafc;
+    transition: background 0.2s;
+
+    &:hover {
+        background: #f1f5f9;
+    }
+
+    img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        flex-shrink: 0;
+        border: 1px solid #e2e8f0;
+    }
+
+    .order-item-info {
+        flex: 1;
+
+        .order-item-name {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.2rem;
+        }
+
+        .order-item-meta {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+    }
+
+    .order-item-total {
+        font-weight: 700;
+        color: #0f172a;
+        font-size: 0.95rem;
+        flex-shrink: 0;
+    }
+}
+
+// Shipping Info
+.order-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 0.6rem 1rem;
+    align-items: center;
+
+    span {
+        font-size: 0.78rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        font-weight: 500;
+    }
+
+    strong {
+        font-size: 0.9rem;
+        color: #1e293b;
+        font-weight: 600;
+    }
+}
+
+// Price Breakdown
+.order-price-list {
+    @include flex(column, flex-start, stretch, 0);
+
+    >div {
+        @include flex(row, space-between, center);
+        padding: 0.65rem 0;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.9rem;
+
+        span:first-child {
+            color: #64748b;
+        }
+
+        span:last-child {
+            color: #1e293b;
+            font-weight: 500;
+        }
+    }
+
+    .discount-row {
+        span:last-child {
+            color: #16a34a;
+            font-weight: 600;
+        }
+    }
+
+    .total-row {
+        padding-top: 0.85rem;
+        border-bottom: none;
+        margin-top: 0.25rem;
+
+        span {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a !important;
+        }
+
+        strong {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: $color3;
+        }
+    }
+}

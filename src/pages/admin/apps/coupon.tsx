@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
 import { useNewCouponMutation } from "../../../redux/api/paymentAPI";
 import type { UserReducerInitialState } from "../../../types/reducer-types";
@@ -12,6 +13,7 @@ const allSymbols = "!@#$%^&*()_+";
 
 const Coupon = () => {
   const { user } = useSelector((state: { user: UserReducerInitialState }) => state.user);
+  const navigate = useNavigate();
 
   const [size, setSize] = useState<number>(8);
   const [prefix, setPrefix] = useState<string>("");
@@ -71,6 +73,7 @@ const Coupon = () => {
         toast.success(res.data.message);
         setCoupon("");
         setAmount(0);
+        setTimeout(() => navigate("/admin/coupon"), 1000);
       } else if (res.error) {
         const err = res.error as any;
         toast.error(err.data?.message || "Failed to create coupon");

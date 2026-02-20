@@ -11,7 +11,7 @@ type CartItemProps = {
 
 const CartItemComponent = ({ cartItem, incrementHandler, decrementHandler, removeHandler }: CartItemProps) => {
     const { productId, photo, name, price, quantity } = cartItem;
-    const imageUrl = photo.startsWith('http') ? photo : `${server}/${photo}`;
+    const imageUrl = photo?.startsWith?.('http') ? photo : `${server}/${photo || ''}`;
     return (
         <div className="cart-item">
             <img src={imageUrl} alt={name} />

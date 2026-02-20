@@ -1,64 +1,116 @@
 .product-search-page {
-  padding: 2rem;
+  padding: 2rem 5%;
   @include flex(row, flex-start, stretch, 2rem);
   min-height: calc(100vh - 6.5vh);
+  background-color: #f8fafc;
 
-  > aside {
-    min-width: 20rem;
-    box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.247);
+  >aside {
+    min-width: 18rem;
+    max-width: 20rem;
+    background: white;
+    border-radius: 16px;
     padding: 2rem;
-    @include flex(column, flex-start, stretch, 0.5rem);
-    > h2 {
-      @include heading;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+    @include flex(column, flex-start, stretch, 1rem);
+    align-self: flex-start;
+    position: sticky;
+    top: 5rem;
+
+    >h2 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: $color3;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid rgba(8, 145, 178, 0.15);
     }
 
-    > div {
-      > input,
-      > select {
-        @include inputStyle(
-          100%,
-          1rem,
-          white,
-          1px solid rgba(154, 154, 154, 0.38)
-        );
+    >div {
+      @include flex(column, flex-start, stretch, 0.4rem);
+
+      label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      >input,
+      >select {
+        @include inputStyle(100%, 0.75rem 1rem, white, 1.5px solid #e2e8f0);
         border-radius: 10px;
-        margin: 0.5rem;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9rem;
+        color: #1e293b;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          border-color: $color3;
+          box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+        }
       }
     }
   }
 
-  > main {
+  >main {
     width: 100%;
-    padding: 0 2rem;
-    > h1 {
-      @include heading;
+
+    >h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid rgba(8, 145, 178, 0.15);
     }
 
-    > input {
-      @include inputStyle(50%);
-      border-radius: 5px;
-      margin: 1rem;
-      font-size: 1.2rem;
+    >input {
+      @include inputStyle(85%, 0.8rem 1.2rem, white, 1.5px solid #e2e8f0);
+      border-radius: 12px;
+      margin: 1rem 0;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
       display: block;
+      transition: border-color 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+      &:focus {
+        border-color: $color3;
+        box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+      }
     }
 
     .search-product-list {
       @include flex(row, flex-start, flex-start);
       flex-wrap: wrap;
+      gap: 1.25rem;
       height: calc(100% - 10rem);
       overflow-y: auto;
     }
-    // $p: 0.5rem 1rem, $bg, $color
+
     article {
       @include flex;
-      > button {
+      margin-top: 1.5rem;
+
+      >button {
         @include flex;
-        @include btn(0.5rem 1rem, $color3, $color1);
-        border-radius: 10px;
+        @include btn(0.6rem 1.5rem, $color3, $color1);
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        transition: all 0.2s ease;
+
+        &:hover:not(:disabled) {
+          background-color: darken(#0891b2, 10%);
+          box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
+        }
+
         &:disabled {
           cursor: not-allowed;
-          opacity: 0.5;
-          color: $color2;
+          opacity: 0.4;
         }
       }
     }

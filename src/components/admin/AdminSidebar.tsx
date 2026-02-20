@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { IoIosPeople } from "react-icons/io";
+import { TbShoppingCart } from "react-icons/tb";
 import {
   RiCoupon3Fill,
   RiDashboardFill,
@@ -60,7 +61,10 @@ const AdminSidebar = () => {
             : {}
         }
       >
-        <h2>Logo.</h2>
+        <Link to="/" className="admin-logo">
+          <TbShoppingCart />
+          <span>Tech<strong>Kart</strong></span>
+        </Link>
         <DivOne location={location} />
         <DivTwo location={location} />
         <DivThree location={location} />
@@ -101,6 +105,12 @@ const DivOne = ({ location }: { location: Location }) => (
         url="/admin/transaction"
         text="Transaction"
         Icon={AiFillFileText}
+        location={location}
+      />
+      <Li
+        url="/admin/coupon"
+        text="Coupon"
+        Icon={RiCoupon3Fill}
         location={location}
       />
     </ul>

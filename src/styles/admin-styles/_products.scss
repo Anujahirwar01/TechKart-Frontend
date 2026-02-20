@@ -111,7 +111,7 @@
           top: -1.5rem;
         }
 
-        > input {
+        > input,> textarea {
           @include inputStyle(
             100%,
             1rem,

@@ -1,4 +1,5 @@
-import type { ChangeEvent, FormEvent } from "react";
+import { useFileHandler } from "6pp";
+import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
@@ -8,7 +9,6 @@ import SkeletonLoader from "../../../components/loader";
 import { useDeleteProductsMutation, useProductDetailsQuery, useUpdateProductsMutation } from "../../../redux/api/productAPI";
 import type { UserReducerInitialState } from "../../../types/reducer-types";
 import { responseToast } from "../../../utils/features";
-const server = import.meta.env.VITE_SERVER;
 
 
 const Productmanagement = () => {
@@ -22,63 +22,65 @@ const Productmanagement = () => {
 
   const [product, setProduct] = useState({
     _id: "",
-    photo: "", category: "", name: "",
-    price: 0, stock: 0
+    photos: [] as { url: string; public_id: string }[], category: "", name: "",
+    price: 0, stock: 0, description: ""
   });
 
 
-  const { photo, name, price, stock, category } = product;
+  const { photos, name, price, stock, category, description } = product;
 
-
+  const [btnLoading, setBtnLoading] = useState<boolean>(false);
   const [priceUpdate, setPriceUpdate] = useState<number>(price);
+  const [descriptionUpdate, setDescriptionUpdate] = useState<string>(description);
   const [stockUpdate, setStockUpdate] = useState<number>(stock);
   const [nameUpdate, setNameUpdate] = useState<string>(name);
   const [categoryUpdate, setCategoryUpdate] = useState<string>(category);
-  const [photoUpdate, setPhotoUpdate] = useState<string>(photo);
-  const [photoFile, setPhotoFile] = useState<File>();
+  const [photoUpdate, setPhotoUpdate] = useState<string>(photos[0]?.url || "");
 
   const [updateProduct] = useUpdateProductsMutation();
   const [deleteProduct] = useDeleteProductsMutation();
 
-  const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const file: File | undefined = e.target.files?.[0];
 
-    const reader: FileReader = new FileReader();
-
-    if (file) {
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") {
-          setPhotoUpdate(reader.result);
-          setPhotoFile(file);
-        }
-      };
-    }
-  };
+  const photosFile = useFileHandler("multiple", 10, 5)
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    setProduct({
-      _id: product._id,
-      name: nameUpdate,
-      price: priceUpdate,
-      stock: stockUpdate,
-      photo: photoUpdate,
-      category: categoryUpdate,
-    });
-    const formData = new FormData();
-    formData.set("name", nameUpdate);
-    formData.set("price", priceUpdate.toString());
-    formData.set("stock", stockUpdate.toString());
-    formData.set("category", categoryUpdate);
-    if (photoFile) formData.set("photo", photoFile);
+    setBtnLoading(true);
+    try {
+      setProduct({
+        _id: product._id,
+        name: nameUpdate,
+        price: priceUpdate,
+        stock: stockUpdate,
+        photos: photoUpdate ? [{ url: photoUpdate, public_id: "" }] : photos,
+        category: categoryUpdate,
+        description: descriptionUpdate
+      });
+      const formData = new FormData();
+      formData.set("name", nameUpdate);
+      formData.set("price", priceUpdate.toString());
+      formData.set("stock", stockUpdate.toString());
+      formData.set("category", categoryUpdate);
+      formData.set("description", descriptionUpdate);
 
-    const res = await updateProduct({
-      formData,
-      userId: user?._id!,
-      productId: data?.product._id!,
-    })
-    responseToast(res, navigate, "/admin/product")
+      if (photosFile.file && photosFile.file.length > 0) {
+        console.log("added new photos");
+        photosFile.file.forEach((file: File) => {
+          formData.append("photos", file);
+        })
+      }
+
+      const res = await updateProduct({
+        formData,
+        userId: user?._id!,
+        productId: data?.product._id!,
+      })
+      responseToast(res, navigate, "/admin/product")
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setBtnLoading(false);
+    }
   };
 
   const deleteHandler = async () => {
@@ -94,11 +96,13 @@ const Productmanagement = () => {
     if (data) {
       setProduct({
         _id: data.product._id,
+
         name: data.product.name,
         price: data.product.price,
         stock: data.product.stock,
         category: data.product.category,
-        photo: data.product.photo,
+        photos: data.product.photos,
+        description: data.product.description || ""
       });
     }
   }, [data])
@@ -108,8 +112,9 @@ const Productmanagement = () => {
     setPriceUpdate(price);
     setStockUpdate(stock);
     setCategoryUpdate(category);
-    setPhotoUpdate(photo);
-  }, [name, price, stock, category, photo])
+    setDescriptionUpdate(description);
+    setPhotoUpdate(photos[0]?.url || "");
+  }, [name, price, stock, category, photos])
 
   if (isError) return <Navigate to={"/404"} />
 
@@ -122,7 +127,7 @@ const Productmanagement = () => {
             <>
               <section>
                 <strong>ID - {product._id}</strong>
-                <img src={photo.startsWith("http") ? photo : `${server}/${photo}`} alt="Product" />
+                <img src={photos[0]?.url || ""} alt="Product" />
                 <p>{name}</p>
                 {stock > 0 ? (
                   <span className="green">{stock} Available</span>
@@ -144,6 +149,15 @@ const Productmanagement = () => {
                       placeholder="Name"
                       value={nameUpdate}
                       onChange={(e) => setNameUpdate(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label>Description</label>
+                    <textarea
+                      required
+                      placeholder="Description"
+                      value={descriptionUpdate}
+                      onChange={(e) => setDescriptionUpdate(e.target.value)}
                     />
                   </div>
                   <div>
@@ -176,12 +190,27 @@ const Productmanagement = () => {
                   </div>
 
                   <div>
-                    <label>Photo</label>
-                    <input type="file" onChange={changeImageHandler} />
+                    <label>Photos</label>
+                    <input type="file" onChange={photosFile.changeHandler} />
                   </div>
 
-                  {photoUpdate && <img src={photoUpdate} alt="New Image" />}
-                  <button type="submit">Update</button>
+                  {
+                    photosFile.error && <p>{photosFile.error}</p>
+                  }
+
+                  {
+                    photosFile.preview && 
+                    <div style={{ display: "flex", gap: "1rem",overflowX: "auto", padding: "1rem 0" }}>
+                       {photosFile.preview.map((img, i) => {
+                        return <img
+                        style={{ width: "8rem", height: "8rem", objectFit: "cover" }}
+                         key={i} src={img} alt="New Image" />
+                      })}
+                    </div>
+                  }
+
+
+                  <button disabled={btnLoading} type="submit">Update</button>
                 </form>
               </article>
             </>
