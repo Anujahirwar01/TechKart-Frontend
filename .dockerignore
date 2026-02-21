@@ -22,5 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.env
+# .env is intentionally NOT ignored - Vite needs it at build time to embed VITE_* vars into the bundle
 node_modules

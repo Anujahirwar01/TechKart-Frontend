@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router'
 import type { Column } from 'react-table'
 import TableHOC from '../components/admin/TableHOC'
-import { useAllOrdersQuery } from '../redux/api/orderAPI'
+import { useMyOrdersQuery } from '../redux/api/orderAPI'
 import type { CustomError } from '../types/api-types'
 import type { UserReducerInitialState } from '../types/reducer-types'
 
@@ -30,7 +30,7 @@ const column: Column<DataType>[] = [
 const Orders = () => {
 
   const { user } = useSelector((state: { user: UserReducerInitialState }) => state.user);
-  const { isError, error, data } = useAllOrdersQuery(user?._id!);
+  const { isError, error, data } = useMyOrdersQuery(user?._id!);
   const [rows, setRows] = useState<DataType[]>([]);
 
   // ✅ FIXED: Move toast.error inside useEffect
